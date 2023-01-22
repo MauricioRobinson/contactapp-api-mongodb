@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,6 +26,7 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "errorhandler": "^1.5.1"
+    "errorhandler": "^1.5.1",
+    "nodemon": "^2.0.20"
   }
 }
