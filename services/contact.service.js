@@ -39,10 +39,10 @@ class ContactService {
   }
 
   async deleteContact(id) {
-    const contact = await this.getContact(id);
-    const deletedContact = contact.deleteOne(contact);
+    const contact = await Contact.findByIdAndRemove(id);
+    // const deletedContact = contact.deleteOne(contact);
 
-    return deletedContact;
+    return contact;
   }
 }
 
