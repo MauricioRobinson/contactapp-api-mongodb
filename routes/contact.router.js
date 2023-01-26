@@ -3,6 +3,12 @@ const router = express.Router();
 const ContactService = require("../services/contact.service");
 const service = new ContactService();
 const passport = require("passport");
+const {
+  getContactSchema,
+  createContactSchema,
+  updateContactSchema,
+} = require("./../schemas/contact.schema");
+const ValidatorHandler = require("../middlewares/validator.handler");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -15,6 +21,7 @@ router.get("/", async (req, res, next) => {
 
 router.get(
   "/:id",
+  ValidatorHandler(getContactSchema, "params"),
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
@@ -30,6 +37,7 @@ router.get(
 
 router.post(
   "/",
+  ValidatorHandler(createContactSchema, "body"),
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
@@ -45,6 +53,8 @@ router.post(
 
 router.patch(
   "/:id",
+  ValidatorHandler(getContactSchema, "params"),
+  ValidatorHandler(updateContactSchema, "body"),
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {

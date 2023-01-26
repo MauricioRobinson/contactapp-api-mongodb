@@ -12,6 +12,7 @@ const {
   errorHandler,
   boomErrorHandler,
 } = require("./middlewares/errorHandler");
+const ValidatorHandler = require("./middlewares/validator.handler");
 
 const PORT = process.env.PORT || 3001;
 
@@ -38,6 +39,7 @@ routerApi(app);
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
+app.use(ValidatorHandler);
 
 app.listen(PORT, () => {
   console.log("Server running OK on port: ", PORT);
