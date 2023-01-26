@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const errorhandler = require("errorhandler");
+const passport = require("passport");
 const connectDB = require("./db/config");
 const app = express();
 const routerApi = require("./routes/index");
@@ -26,6 +27,10 @@ app.use(morgan("tiny"));
 if (process.env.NODE === "development") {
   app.use(errorhandler());
 }
+
+//Initialiazing passport strategies
+require("./libs/auth");
+app.use(passport.initialize());
 
 routerApi(app);
 

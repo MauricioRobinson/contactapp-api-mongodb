@@ -40,9 +40,10 @@ class ContactService {
 
   async deleteContact(id) {
     const contact = await Contact.findByIdAndRemove(id);
-    // const deletedContact = contact.deleteOne(contact);
 
-    return contact;
+    return {
+      message: `${contact.firstName} ${contact.lastName} removed seccessfully`,
+    };
   }
 }
 

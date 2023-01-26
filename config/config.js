@@ -5,6 +5,7 @@ const config = {
   dbPort: process.env.DB_PORT,
   dbName: process.env.DB_NAME,
   dbURI: process.env.DB_STRING_CONN,
+  jwtSecret: process.env.JWT_SECRET,
 };
 
 module.exports = config;
