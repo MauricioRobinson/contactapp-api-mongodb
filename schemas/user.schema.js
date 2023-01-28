@@ -14,34 +14,32 @@ const lastName = Joi.string()
   .max(30)
   .trim();
 const email = Joi.string().email().min(11).max(50).trim();
-const phoneNumber = Joi.string().trim();
-const isFavorite = Joi.boolean();
-const user = Joi.string()
-  .pattern(/^[a-z0-9]+$/i)
-  .lowercase()
-  .alphanum()
-  .length(24);
+const password = Joi.string()
+  .min(8)
+  .max(24)
+  .pattern(/^[a-z0-9_*$+]+$/i);
 
-const getContactSchema = Joi.object({
+const getUserSchema = Joi.object({
   id: id.required(),
 });
 
-const createContactSchema = Joi.object({
+const createUserSchema = Joi.object({
   firstName: firstName.required(),
   lastName: lastName.required(),
   email: email.required(),
-  phoneNumber: phoneNumber.required(),
-  isFavorite,
-  user: user.required(),
+  password: password.required(),
 });
 
-const updateContactSchema = Joi.object({
+const updateUserSchema = Joi.object({
   firstName,
   lastName,
   email,
-  phoneNumber,
-  isFavorite,
-  user,
+  password,
 });
 
-module.exports = { getContactSchema, createContactSchema, updateContactSchema };
+const loginUserSchema = Joi.object({
+  firstName: firstName.required(),
+  password: password.required(),
+});
+
+module.exports = { getUserSchema, createUserSchema, updateUserSchema };

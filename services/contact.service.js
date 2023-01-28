@@ -5,7 +5,10 @@ class ContactService {
   constructor() {}
 
   async getAllContacts() {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find().populate(
+      "user",
+      "firstName lastName email -_id"
+    );
     return contacts;
   }
 

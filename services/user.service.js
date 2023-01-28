@@ -85,7 +85,7 @@ class UserService {
 
   async updateUser(id, data) {
     const user = await User.findByIdAndUpdate(
-      id,
+      { _id: id },
       {
         $set: data,
       },
@@ -100,7 +100,7 @@ class UserService {
   }
 
   async deleteUser(id) {
-    const user = await User.findByIdAndRemove(id);
+    const user = await User.findByIdAndRemove({ _id: id });
 
     if (!user) {
       throw boom.notFound("User not found");
