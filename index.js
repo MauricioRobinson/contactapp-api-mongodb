@@ -13,16 +13,28 @@ const {
   boomErrorHandler,
 } = require("./middlewares/errorHandler");
 const ValidatorHandler = require("./middlewares/validator.handler");
+const { AuthHandler } = require("./middlewares/auth.handler");
 
 const PORT = process.env.PORT || 3001;
 
 connectDB();
 
+const whiteList = ["http://localhost:3000"];
+const options = {
+  origin: (origin, callback) => {
+    if (whiteList.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Acceso no permitido"));
+    }
+  },
+};
+
 //Using middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(cors());
+app.use(cors(options));
 app.use(morgan("tiny"));
 
 if (process.env.NODE === "development") {
@@ -40,6 +52,7 @@ app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 app.use(ValidatorHandler);
+app.use(AuthHandler);
 
 app.listen(PORT, () => {
   console.log("Server running OK on port: ", PORT);

@@ -36,25 +36,21 @@ router.get(
 );
 
 //Login user router
-router.post(
-  "/login",
-  passport.authenticate("local", { session: false }),
-  async (req, res, next) => {
-    const { email, password } = req.body;
-    try {
-      const user = await service.loginUser(email, password);
-      const token = await service.signToken(
-        user.id,
-        user.firstName,
-        user.lastName
-      );
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const user = await service.loginUser(email, password);
+    const token = await service.signToken(
+      user.id,
+      user.firstName,
+      user.lastName
+    );
 
-      res.status(201).json({ email, token });
-    } catch (error) {
-      next(error);
-    }
+    res.status(201).json({ email, token });
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 //Sigup user router
 router.post(

@@ -54,7 +54,7 @@ class UserService {
     const searchUser = await User.findOne({ email });
 
     if (searchUser) {
-      throw boom.unauthorized("The user already exists");
+      throw boom.badRequest("The user already exists");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -62,7 +62,7 @@ class UserService {
     const user = await User.create({ ...data, password: hash });
 
     if (!user) {
-      throw boom.badRequest();
+      throw boom.badRequest("We could't create the user. Please try again!");
     }
 
     return user;
@@ -72,12 +72,12 @@ class UserService {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw boom.notFound("Incorrect username credentials");
+      throw boom.notFound("Username not found");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw boom.unauthorized("Invalid login credentials");
+      throw boom.badRequest("Invalid password");
     }
 
     return user;

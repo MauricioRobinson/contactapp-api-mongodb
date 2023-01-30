@@ -4,11 +4,10 @@ const boom = require("@hapi/boom");
 class ContactService {
   constructor() {}
 
-  async getAllContacts() {
-    const contacts = await Contact.find().populate(
-      "user",
-      "firstName lastName email -_id"
-    );
+  async getAllContacts(userId) {
+    const contacts = await Contact.find({ userId })
+      .populate("userId", "firstName lastName email -_id")
+      .sort({ createdAt: -1 });
     return contacts;
   }
 
@@ -22,8 +21,11 @@ class ContactService {
     return contact;
   }
 
-  async createContact(data) {
-    const contact = await Contact.create(data);
+  async createContact(data, userId) {
+    const contact = await Contact.create({
+      ...data,
+      userId: userId,
+    });
 
     return contact;
   }

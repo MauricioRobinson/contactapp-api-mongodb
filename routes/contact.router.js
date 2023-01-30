@@ -3,21 +3,28 @@ const router = express.Router();
 const ContactService = require("../services/contact.service");
 const service = new ContactService();
 const passport = require("passport");
+const jwt = require("jsonwebtoken");
 const {
   getContactSchema,
   createContactSchema,
   updateContactSchema,
 } = require("./../schemas/contact.schema");
 const ValidatorHandler = require("../middlewares/validator.handler");
+const config = require("../config/config");
 
-router.get("/", async (req, res, next) => {
-  try {
-    const contacts = await service.getAllContacts();
-    res.status(200).json(contacts);
-  } catch (error) {
-    next(error);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const contacts = await service.getAllContacts(userId);
+      res.status(200).json(contacts);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   "/:id",
@@ -41,8 +48,10 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
+      const userId = req.user._id;
+
       const body = req.body;
-      const contact = await service.createContact(body);
+      const contact = await service.createContact(body, userId);
 
       res.status(201).json(contact);
     } catch (error) {

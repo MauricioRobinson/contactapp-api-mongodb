@@ -23,7 +23,7 @@ const contactSchema = new Schema(
     isFavorite: {
       type: Boolean,
     },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

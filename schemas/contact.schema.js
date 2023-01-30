@@ -16,7 +16,7 @@ const lastName = Joi.string()
 const email = Joi.string().email().min(11).max(50).trim();
 const phoneNumber = Joi.string().trim();
 const isFavorite = Joi.boolean();
-const user = Joi.string()
+const userId = Joi.string()
   .pattern(/^[a-z0-9]+$/i)
   .lowercase()
   .alphanum()
@@ -32,7 +32,7 @@ const createContactSchema = Joi.object({
   email: email.required(),
   phoneNumber: phoneNumber.required(),
   isFavorite,
-  user: user.required(),
+  userId,
 });
 
 const updateContactSchema = Joi.object({
@@ -41,7 +41,7 @@ const updateContactSchema = Joi.object({
   email,
   phoneNumber,
   isFavorite,
-  user,
+  userId,
 });
 
 module.exports = { getContactSchema, createContactSchema, updateContactSchema };
