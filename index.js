@@ -21,8 +21,7 @@ connectDB();
 
 const whiteList = [
   "http://localhost:3000",
-  "https://contactapp-marsdev.vercel.app/",
-  "https://contact-app-api-hl8y.onrender.com/",
+  "https://contactapp-marsdev.vercel.app",
 ];
 const options = {
   origin: (origin, callback) => {
