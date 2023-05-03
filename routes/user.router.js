@@ -9,6 +9,7 @@ const {
   updateUserSchema,
 } = require("./../schemas/user.schema");
 const ValidatorHandler = require("./../middlewares/validator.handler");
+const cookie = require("cookie");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -46,7 +47,12 @@ router.post("/login", async (req, res, next) => {
       user.lastName
     );
 
-    res.status(201).json({ email, token });
+    const authCookie = cookie.serialize("token", token, {
+      httpOnly: true,
+      maxAge: 60 * 60,
+    });
+
+    res.status(201).header("Set-Cookie", authCookie).json({ email, token });
   } catch (error) {
     next(error);
   }
@@ -67,7 +73,12 @@ router.post(
         user.lastName
       );
 
-      res.status(201).json({ user, token });
+      const authCookie = await cookie.serialize("token", token, {
+        httpOnly: true,
+        maxAge: 60 * 60,
+      });
+
+      res.status(201).header("Set-Cookie", authCookie).json({ email, token });
     } catch (error) {
       next(error);
     }

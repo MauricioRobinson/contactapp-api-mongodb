@@ -27,7 +27,7 @@ class ContactService {
       userId: userId,
     });
 
-    return contact;
+    return { contact, message: `${contact.firstName} has been added` };
   }
 
   async updateContact(id, data) {
