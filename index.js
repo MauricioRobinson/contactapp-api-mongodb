@@ -19,7 +19,11 @@ const PORT = process.env.PORT || 3001;
 
 connectDB();
 
-const whiteList = ["http://localhost:3000"];
+const whiteList = [
+  "http://localhost:3000",
+  "https://contactapp-marsdev.vercel.app/",
+  "https://contact-app-api-hl8y.onrender.com/",
+];
 const options = {
   origin: (origin, callback) => {
     if (whiteList.includes(origin) || !origin) {
